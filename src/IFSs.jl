@@ -1,6 +1,9 @@
 # IFS structs and basic utilities.
-# module IFSs
+module IFSs
 using Distributions
+
+export IFS, WIFS, IFSNonlinear
+export itrPtsProb
 
 ## structs
 struct IFS
@@ -40,7 +43,7 @@ end
 
 ## functions
 """
-Iterated points via probabilistic method.
+Iterate points via probabilistic method.
 """
 function itrPtsProb(linearIFS::Vector{Matrix{Float64}}, transIFS::Vector{Vector{Float64}}, weights::Vector{Float64}, maxNumPts::Int)::Vector{Vector{Float64}}
 	probDistr = Categorical(weights)
@@ -126,4 +129,4 @@ BedMcCarpet(pos::Matrix=[1 0 1; 0 1 1]) = BaranskiCarpet(ones(size(pos, 1)) ./ s
 # end
 
 end # end of module PredefinedIFS
-# end # end of module IFS
+end # end of module IFS
