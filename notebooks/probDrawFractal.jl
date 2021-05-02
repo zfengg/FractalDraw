@@ -114,7 +114,7 @@ function plot_ptsSet(ptsSet::Vector{Vector{Float64}})
 end
 
 # ╔═╡ e63a2bee-5b49-4b73-8598-fcf8c17b478a
-pos = [1 0 0 1; 1 1 0 1; 0 0 1 1]
+pos = [1 0 1 1; 1 1 0 1; 0 1 1 1]
 
 # ╔═╡ 0ba7d829-0a5d-4891-9b50-3203891faa22
 hh = [0.1, 0.6, 0.1 , 0.3]
@@ -353,7 +353,7 @@ show_image(pos), show_image( vv[i] * hh[j] * pos[i, j] for i in 1:lastindex(vv),
 # ╟─5a59bd1c-71e2-44dd-a143-2b3594ddc738
 # ╟─7afa357b-4483-4cff-8b12-9401d42ea53b
 # ╠═fbfb70b3-95a8-45cd-9111-648de10e683c
-# ╟─e63a2bee-5b49-4b73-8598-fcf8c17b478a
+# ╠═e63a2bee-5b49-4b73-8598-fcf8c17b478a
 # ╠═0ba7d829-0a5d-4891-9b50-3203891faa22
 # ╠═2ca1aa8e-4450-43a2-a15a-ba5d5e2a652f
 # ╟─aad51fe8-0ba2-4a68-9860-3d6f55dce7d6
