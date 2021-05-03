@@ -49,7 +49,7 @@ begin
 	f(x) = [0.5*x[1]^2 + x[2], x[2] ^ 3]
 	g(x) = [0.2* x[1] * x[2] + 1, -0.3 * x[1] ]
 	myIFSNonlinear = IFSNonlinear([f, g], 2)
-end
+end;
 
 # ╔═╡ 24f874d6-93f6-4f53-941c-4cc3cf56963b
 md"""
@@ -64,16 +64,27 @@ numPts: $(@bind maxNumPts Slider(1000:1000:300000; default=100000, show_value=tr
 							default=["SierpinskiTriangle"])) $ \quad $ Color: $(@bind myColor ColorStringPicker(default="#009AFA"))
 """
 
+# ╔═╡ 5f8abed9-0be7-43c7-a6a5-8f93a94eb5ce
+md"Bed-MacMullen carpet setup:"
+
+# ╔═╡ 106cbdcb-8041-40e4-924a-4693c8d2ea10
+md"Baranski carpet setup:"
+
 # ╔═╡ e63a2bee-5b49-4b73-8598-fcf8c17b478a
-pos = [1 1 0 1; 
-	   1 0 0 1; 
-	   0 1 1 1]
+posBM = [1 1 1; 
+		1 0 1; 
+		0 1 1;]
+
+# ╔═╡ e46ee341-23bb-45a0-8e00-58afdd825634
+ vv = [0.6, 0.1, 0.3]
 
 # ╔═╡ 0ba7d829-0a5d-4891-9b50-3203891faa22
 hh = [0.5, 0.1, 0.1 , 0.3]
 
 # ╔═╡ 2ca1aa8e-4450-43a2-a15a-ba5d5e2a652f
-vv = [0.6, 0.1, 0.3] 
+posB = [1 1 0 1; 
+	   1 0 0 1; 
+	   0 1 1 1]
 
 # ╔═╡ dc9d671f-5279-4c8f-a4ef-9ee31ce49e76
 begin
@@ -84,9 +95,9 @@ begin
 		if selectIFS[1] in ["SierpinskiTriangle", "BarnsleyFern", "HeighwayDragon", "Twindragon", "Terdragon"]
 			ptsSet = itrPtsProb(itrIFS, maxNumPts)
 		elseif selectIFS[1] == "BedMcCarpet"
-			ptsSet = itrPtsProb(itrIFS(pos), maxNumPts)
+			ptsSet = itrPtsProb(itrIFS(posBM), maxNumPts)
 		else
-			ptsSet = itrPtsProb(itrIFS(vv, hh, pos), maxNumPts)
+			ptsSet = itrPtsProb(itrIFS(vv, hh, posB), maxNumPts)
 		end
 	end
 		
@@ -167,10 +178,10 @@ begin
 end
 
 # ╔═╡ fbfb70b3-95a8-45cd-9111-648de10e683c
-show_image(pos)
+show_image(posBM)
 
-# ╔═╡ ded0e737-6d7b-4c84-ada9-f272cc2cae3f
-show_image( vv[i] * hh[j] * pos[i, j] for i in 1:lastindex(vv), j in 1:lastindex(hh))
+# ╔═╡ 466de16d-7eeb-427b-b81e-eddb9b93efb3
+show_image( (vv * reshape(hh, 1, :)) .* posB)
 
 # ╔═╡ 210c8db0-5083-470c-811b-1aca62ee24b2
 function ingredients(path::String)
@@ -211,11 +222,14 @@ end
 # ╟─dc9d671f-5279-4c8f-a4ef-9ee31ce49e76
 # ╟─24f874d6-93f6-4f53-941c-4cc3cf56963b
 # ╟─5a59bd1c-71e2-44dd-a143-2b3594ddc738
+# ╟─5f8abed9-0be7-43c7-a6a5-8f93a94eb5ce
 # ╟─fbfb70b3-95a8-45cd-9111-648de10e683c
-# ╠═e63a2bee-5b49-4b73-8598-fcf8c17b478a
-# ╠═0ba7d829-0a5d-4891-9b50-3203891faa22
-# ╠═2ca1aa8e-4450-43a2-a15a-ba5d5e2a652f
-# ╟─ded0e737-6d7b-4c84-ada9-f272cc2cae3f
+# ╟─e63a2bee-5b49-4b73-8598-fcf8c17b478a
+# ╟─106cbdcb-8041-40e4-924a-4693c8d2ea10
+# ╟─466de16d-7eeb-427b-b81e-eddb9b93efb3
+# ╟─e46ee341-23bb-45a0-8e00-58afdd825634
+# ╟─0ba7d829-0a5d-4891-9b50-3203891faa22
+# ╟─2ca1aa8e-4450-43a2-a15a-ba5d5e2a652f
 # ╟─aad51fe8-0ba2-4a68-9860-3d6f55dce7d6
 # ╟─99984492-63dd-423f-9db7-1c65370bfcfb
 # ╟─68185989-796e-4182-a779-3581b3ce42d1
