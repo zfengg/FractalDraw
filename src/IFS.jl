@@ -23,8 +23,8 @@ mutable struct WIFS
 
 	WIFS(linear::Vector{Matrix{Float64}}, trans::Vector{Vector{Float64}}, weights::Vector) = isprobvec(weights) ? new(linear, trans, weights, size(trans, 1), size(trans[1], 1)) : error("Not prob. vec!")
 	WIFS(ifs::IFS, weights::Vector) = WIFS(ifs.linear, ifs.trans, weights)
-	# WIFS(ifs::IFS, weights::Vector) = isprobvec(weights) ? new(ifs.linear, ifs.trans, weights, ifs.numMaps, ifs.dimAmbient) : error("Not prob. vec!")
 	WIFS(ifs::IFS) = WIFS(ifs, ones(ifs.numMaps) ./ ifs.numMaps)
+	WIFS(linear::Vector{Matrix{Float64}}, trans::Vector{Vector{Float64}}) = WIFS(IFS(linear, trans))
 
 end
 
