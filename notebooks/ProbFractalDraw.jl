@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.14.4
+# v0.14.5
 
 using Markdown
 using InteractiveUtils
@@ -67,13 +67,13 @@ numPts: $(@bind maxNumPts Slider(1000:1000:300000; default=100000, show_value=tr
 # ╔═╡ 5f8abed9-0be7-43c7-a6a5-8f93a94eb5ce
 md"Bed-MacMullen carpet setup:"
 
-# ╔═╡ 106cbdcb-8041-40e4-924a-4693c8d2ea10
-md"Baranski carpet setup:"
-
 # ╔═╡ e63a2bee-5b49-4b73-8598-fcf8c17b478a
 posBM = [1 1 1; 
 		1 0 1; 
 		0 1 1;]
+
+# ╔═╡ 106cbdcb-8041-40e4-924a-4693c8d2ea10
+md"Baranski carpet setup:"
 
 # ╔═╡ e46ee341-23bb-45a0-8e00-58afdd825634
  vv = [0.6, 0.1, 0.3]
