@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.14.3
+# v0.14.5
 
 using Markdown
 using InteractiveUtils
@@ -344,8 +344,8 @@ show_image(pos), show_image( vv[i] * hh[j] * pos[i, j] for i in 1:lastindex(vv),
 # ╟─03386e5e-937b-4e32-b034-e1689834e0dc
 # ╟─fe69d7ee-aa66-11eb-0e4e-e16fc28be586
 # ╟─1f0068b8-4df2-44dd-a3a3-072d3c43d66a
-# ╟─201374df-2c63-4c8f-bfb5-ffcfb1e5be41
-# ╟─813219ac-0a33-4bf1-8cd3-cf06193bb5d1
+# ╠═201374df-2c63-4c8f-bfb5-ffcfb1e5be41
+# ╠═813219ac-0a33-4bf1-8cd3-cf06193bb5d1
 # ╟─d3e449f3-6318-4d9d-87ee-12d0733b65c9
 # ╟─dc9d671f-5279-4c8f-a4ef-9ee31ce49e76
 # ╟─177eb41d-4c00-492d-8657-c8c9d65b9bd8

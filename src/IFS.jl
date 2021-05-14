@@ -3,6 +3,7 @@
 using Distributions
 
 ## structs
+"Iterated function system"
 struct IFS
 	linear::Vector{Matrix{Float64}}
 	trans::Vector{Vector{Float64}}
@@ -14,6 +15,7 @@ struct IFS
 
 end
 
+"Weighted iterated function system"
 mutable struct WIFS
 	linear::Vector{Matrix{Float64}}
 	trans::Vector{Vector{Float64}}
@@ -24,9 +26,11 @@ mutable struct WIFS
 	WIFS(linear::Vector{Matrix{Float64}}, trans::Vector{Vector{Float64}}, weights::Vector) = isprobvec(weights) ? new(linear, trans, weights, size(trans, 1), size(trans[1], 1)) : error("Not prob. vec!")
 	WIFS(ifs::IFS, weights::Vector) = WIFS(ifs.linear, ifs.trans, weights)
 	WIFS(ifs::IFS) = WIFS(ifs, ones(ifs.numMaps) ./ ifs.numMaps)
+	WIFS(linear::Vector{Matrix{Float64}}, trans::Vector{Vector{Float64}}) = WIFS(IFS(linear, trans))
 
 end
 
+"Nonlinear iterated function system"
 struct IFSNonlinear
 	maps::Vector{Function}
 	weights::Vector
@@ -39,7 +43,7 @@ end
 
 ## functions
 """
-Iterated points via probabilistic method.
+Generate points via probabilistic method in the attractor of IFS.
 """
 function itrPtsProb(linearIFS::Vector{Matrix{Float64}}, transIFS::Vector{Vector{Float64}}, weights::Vector{Float64}, maxNumPts::Int)::Vector{Vector{Float64}}
 	probDistr = Categorical(weights)
