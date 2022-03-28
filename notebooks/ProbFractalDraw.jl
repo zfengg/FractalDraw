@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.14.5
+# v0.14.8
 
 using Markdown
 using InteractiveUtils
@@ -68,7 +68,7 @@ md"### Gallery"
 
 # ╔═╡ 24f874d6-93f6-4f53-941c-4cc3cf56963b
 md"""
-numPts: $(@bind maxNumPts Slider(1000:1000:300000; default=100000, show_value=true)) $ \quad $ Example: $(@bind selectIFS MultiSelect([ "SierpinskiTriangle" => "Sierpinski Triangle", 
+numPts: $(@bind maxNumPts Slider(1000:1000:300000; default=100000, show_value=true)) `` \quad `` Example: $(@bind selectIFS MultiSelect([ "SierpinskiTriangle" => "Sierpinski Triangle", 
 							"BedMcCarpet" => "Bedford-MacMullen Carpet", 
 							"BaranskiCarpet" => "Baranski Carpet",
 							"HeighwayDragon" => "Heighway Dragon",
@@ -76,7 +76,7 @@ numPts: $(@bind maxNumPts Slider(1000:1000:300000; default=100000, show_value=tr
 							"Terdragon" => "Terdragon",
  							"BarnsleyFern" => "Barnsley Fern",
 							"myIFSNonlinear" => "nonlinear"];
-							default=["SierpinskiTriangle"])) $ \quad $ Color: $(@bind myColor ColorStringPicker(default="#009AFA"))
+							default=["SierpinskiTriangle"])) `` \quad `` Color: $(@bind myColor ColorStringPicker(default="#009AFA"))
 """
 
 # ╔═╡ 5f8abed9-0be7-43c7-a6a5-8f93a94eb5ce
@@ -84,7 +84,7 @@ md"Bed-MacMullen carpet setup:"
 
 # ╔═╡ e63a2bee-5b49-4b73-8598-fcf8c17b478a
 posBM = [1 0 1 1; 
-		1 0 1 0; 
+		1 0 0 0; 
 		0 1 1 0;]
 
 # ╔═╡ 106cbdcb-8041-40e4-924a-4693c8d2ea10
