@@ -20,7 +20,7 @@ begin
 	# quickactivate(findproject())
 	# using Colors, ColorVectorSpace, FileIO
 	using  ColorSchemes
-	using PlutoUI
+	using PlutoUI, HypertextLiteral
 	using Plots
 end
 
@@ -164,20 +164,18 @@ end # end of module PredefinedIFS
 end # end of module IFS
 
 # ╔═╡ 03386e5e-937b-4e32-b034-e1689834e0dc
-TableOfContents()
+TableOfContents(depth=2)
 
 # ╔═╡ fe69d7ee-aa66-11eb-0e4e-e16fc28be586
-md"# Fractal Drawing via probabilistic method"
+md"# Plot IFS attractors by probabilistic method"
 
 # ╔═╡ df738342-cb99-4a8e-9565-2b9422caaee2
-md"## Basic usage and settings"
+md"## Usage"
 
-# ╔═╡ e3bbfd8a-21c0-4364-a6aa-23b244a0c5da
-begin
-	numPts = 3 * 10^5
-	shouldSave = true
-	fn = "newtest.png"
-end
+# ╔═╡ 5362df05-9334-479c-a11d-2c1cf6f664d5
+md"""
+### IFS setup
+"""
 
 # ╔═╡ cffe70b9-17bc-467a-b2c1-7a01e46ce494
 begin
@@ -191,18 +189,69 @@ begin
 				[0, 1.6],
 				[0, 0.44]]
 	weights = [0.01, 0.84, 0.08, 0.07]
-	# create the weighted IFS
+end;
 
-end
+# ╔═╡ 52ea8214-351a-4685-b4c6-feeda6df60a0
+md"""
+### Examples
+"""
+
+# ╔═╡ b87c45ac-1a61-49c7-a0fd-102ea9a45cd8
+md"""
+Use example? $(@bind isExample CheckBox(default=true))
+"""
 
 # ╔═╡ 1133d30a-8c54-48da-88d6-da06585781b5
 begin
-	isExample = true
-	# examples
-	exLinear = 2.0^(-11/12) .* [[1 -sqrt(2); 1 0], [0 1; -sqrt(2) 1]]
-	exTrans = [[-1., -1], [1, 1]]
-	exWeight = ones(2) ./ 2 
-end
+	# # Bernsley fern
+	# exLinear = [[0  0; 0 0.16],
+	# 			 [0.85  0.04; -0.04 0.85 ],
+	# 			 [0.2  -0.26; 0.23 0.22],
+	# 			 [-0.15  0.28; 0.26 0.24]]
+	# exTrans = [[0, 0],
+	# 			[0, 1.6],
+	# 			[0, 1.6],
+	# 			[0, 0.44]]
+	# exWeight = [0.01, 0.84, 0.08, 0.07]
+	
+	# # Morris-Shmerkin Figure 2
+	# exLinear = 2.0^(-11/12) .* [
+	# 	[1 -sqrt(2); 1 0],
+	# 	[0 1; -sqrt(2) 1],
+	# ]
+	# exTrans = [
+	# 	[-1., -1], 
+	# 	[1, 1]
+	# ]
+	# exWeight = ones(2) ./ 2
+
+	# Morris Example 1
+	exLinear = [[-13/27 0; 0 7/9],
+				[0 13/27; 7/9 0]]
+	exTrans = [[13/27., 2/9], [14/27, 0]]
+	exWeight = ones(2) ./ 2
+
+	# # Morris Example 2
+	# exLinear = [
+	# 	[1/3 0; 0 2/3],
+	# 	[-2/3 0; 0 -1/3],
+	# 	[0 2/9; -1/3 0],
+	# 	[0 4/9; -1/3 0]
+	# ] 
+	# exTrans = [
+	# 	[2/3, 0],
+	# 	[2/3, 1],
+	# 	[2/3, 1],
+	# 	[2/9, 2/3]
+	# ]
+	# exWeight = ones(4) ./ 4
+	
+end;
+
+# ╔═╡ 19373c06-e44b-4640-8ffd-a630e4d2586d
+md"""
+The created IFS is
+"""
 
 # ╔═╡ e503bc26-1c46-43dd-8631-698e64b2eb21
 # create the weighted IFS
@@ -212,14 +261,38 @@ else
 	myWIFS = IFSs.WIFS(linearIFS, transIFS, weights)
 end
 
+# ╔═╡ 59e300ef-d93b-4049-a431-b7c6ac78ba9e
+md"""
+numPts: $(@bind numPts Slider(10000 : 10000 : 1000000; default= 500000, show_value=true))
+"""
+
 # ╔═╡ 8a1f751a-11ad-4595-b937-ae81828da28d
 md"""
-Color: $(@bind myColor ColorStringPicker(default="#009AFA"))
+Color: $(@bind myColor ColorStringPicker(default="#00000"))
 """
+
+# ╔═╡ 9621196a-2465-4ae9-bbc3-bc6281fbad6a
+begin
+	# plot settings
+	figSize = (2000, 2000) # figure size
+end;
 
 # ╔═╡ e8c15b61-1e15-4412-9370-fd9e5d0efa78
 md"""
-### Save the fig
+### Save the figure? $(@bind shouldSave CheckBox(default=false))
+"""
+
+# ╔═╡ f79b9354-c179-4189-878d-8cedf17eccea
+md"""
+Below please input the filename to save the figure:
+"""
+
+# ╔═╡ ce4d9abb-a298-424c-a532-c8bc0c96fade
+fn = "../plots/test.png" ;
+
+# ╔═╡ 6f2306ed-320f-45dc-a5ac-9407d6e4d5e9
+md"""
+Supported formats: `png`, `pdf`, `svg`...
 """
 
 # ╔═╡ 87b32b70-a405-42db-87bd-16a44644e334
@@ -227,7 +300,7 @@ md"## Gallery"
 
 # ╔═╡ 24f874d6-93f6-4f53-941c-4cc3cf56963b
 md"""
-numPts: $(@bind maxNumPts Slider(1000:1000:300000; default=100000, show_value=true)) `` \quad `` Example: $(@bind selectIFS MultiSelect([ "SierpinskiTriangle" => "Sierpinski Triangle", 
+numPts: $(@bind maxNumPts Slider(1000:1000:1000000; default=200000, show_value=true)) `` \quad `` Example: $(@bind selectIFS MultiSelect([ "SierpinskiTriangle" => "Sierpinski Triangle", 
 							"BedMcCarpet" => "Bedford-MacMullen Carpet", 
 							"BaranskiCarpet" => "Baranski Carpet",
 							"HeighwayDragon" => "Heighway Dragon",
@@ -235,7 +308,12 @@ numPts: $(@bind maxNumPts Slider(1000:1000:300000; default=100000, show_value=tr
 							"Terdragon" => "Terdragon",
  							"BarnsleyFern" => "Barnsley Fern",
 							"myIFSNonlinear" => "nonlinear"];
-							default=["SierpinskiTriangle"])) `` \quad `` Color: $(@bind galleryColor ColorStringPicker(default="#009AFA"))
+							default=["SierpinskiTriangle"])) `` \quad `` Color: $(@bind galleryColor ColorStringPicker(default="#0053FA"))
+"""
+
+# ╔═╡ f364abae-db0a-42a5-a3f2-3d91d5ef5723
+md"""
+### Save the gallery picture? $(@bind saveGallery CheckBox(default=false))
 """
 
 # ╔═╡ 5f8abed9-0be7-43c7-a6a5-8f93a94eb5ce
@@ -247,7 +325,8 @@ posBM = [1 0 1 1;
 		0 1 1 0;];
 
 # ╔═╡ 106cbdcb-8041-40e4-924a-4693c8d2ea10
-md"Baranski carpet setup:"
+md"
+### Baranski carpet setup:"
 
 # ╔═╡ e46ee341-23bb-45a0-8e00-58afdd825634
 begin
@@ -258,10 +337,7 @@ end;
 # ╔═╡ 2ca1aa8e-4450-43a2-a15a-ba5d5e2a652f
 posB = [1 1 0 1; 
 	   1 0 0 1; 
-	   0 1 1 1]
-
-# ╔═╡ 10d6e98c-685e-4d15-8e66-463ac9524623
-
+	   0 1 1 1];
 
 # ╔═╡ 61e39db5-43ac-4297-97d1-35ed1c42c462
 md"""
@@ -270,9 +346,10 @@ md"""
 
 # ╔═╡ d3e449f3-6318-4d9d-87ee-12d0733b65c9
 begin
-	f(x) = [0.5*x[1]^2 + x[2], x[2] ^ 3]
-	g(x) = [0.2* x[1] * x[2] + 1, -0.3 * x[1] ]
-	myIFSNonlinear = IFSs.IFSNonlinear([f, g], 2)
+	f(x) = [0.7*x[1]^2 + x[2], x[2] ^ 3]
+	g(x) = [0.9* x[1] * x[2] + 1, -0.5 * x[1] ]
+	weights3 = [0.4, 0.6]
+	myIFSNonlinear = IFSs.IFSNonlinear([f, g], weights3, 2)
 end
 
 # ╔═╡ dc9d671f-5279-4c8f-a4ef-9ee31ce49e76
@@ -291,11 +368,21 @@ begin
 	end
 end;
 
+# ╔═╡ ceffdad9-8532-4ab6-b19a-a5c7fae0ebac
+md"""
+numPts: $(@bind numPts3 Slider(10000 : 10000 : 10 * 10^5; default= 500000, show_value=true))
+"""
+
+# ╔═╡ a5290c8e-99fe-49d7-b622-9ebca55b8be2
+md"""
+Color: $(@bind mc3 ColorStringPicker(default="#DA0B0B"))
+"""
+
 # ╔═╡ 3ba4d982-b95b-40e0-9844-b4801b7a1e89
 md"## Appendix"
 
 # ╔═╡ 7afa357b-4483-4cff-8b12-9401d42ea53b
-function plot_ptsSet(ptsSet::Vector{Vector{Float64}}, mc::String="#009AFA")
+function plot_ptsSet(ptsSet::Vector{Vector{Float64}}, mc::String="#000000")
 	xPtsSet = [x[1] for x in ptsSet]
 	yPtsSet = [x[2] for x in ptsSet]
 	scatter(xPtsSet, yPtsSet, 
@@ -312,7 +399,7 @@ function plot_ptsSet(ptsSet::Vector{Vector{Float64}}, mc::String="#009AFA")
 			ticks=false,
 			xlims=extrema(xPtsSet),
 			ylims=extrema(yPtsSet),
-			size=(680, 500)
+			size= figSize
 	)
 end
 
@@ -321,19 +408,89 @@ end
 myplt = plot_ptsSet(IFSs.itrPtsProb(myWIFS, numPts), myColor)	
 
 # ╔═╡ 15ecc17a-d5c4-45a6-9266-2520a895eb16
-shouldSave && savefig(myplt, joinpath("../plots", fn)) 
+if shouldSave
+	savefig(myplt, fn)
+		@htl("""
+	
+	<div class='blue-background'>
+	🎉 The above figure is saved as <span style="color:blue;">$(fn) </span> !
+	</div>
+	
+	<style>
+	.blue-background {
+		padding: .5em;
+		background: #D2FBA4;
+		color: black;
+	}
+	</style>
+	
+	""")
+else
+	@htl("""
+	
+	<div class='blue-background'>
+	⚠️ The above figure is not saved yet!
+	</div>
+	
+	<style>
+	.blue-background {
+		padding: .5em;
+		background: lightyellow;
+		color: black;
+	}
+	</style>
+	
+	""")
+end
 
 # ╔═╡ 5a59bd1c-71e2-44dd-a143-2b3594ddc738
-plot_ptsSet(ptsSet, galleryColor)
+galleryPlt = plot_ptsSet(ptsSet, galleryColor)
+
+# ╔═╡ 88e2cfb4-801b-4780-bf0f-8b5d4b087f9e
+if saveGallery
+	tmpFn = selectIFS[1] * ".png"
+	savefig(galleryPlt, tmpFn)
+	@htl("""
+	
+		<div class='blue-background'>
+		This gallery picture saved as <span style="color:blue;">$(tmpFn) </span> !
+		</div>
+		
+		<style>
+		.blue-background {
+			padding: .5em;
+			background: #D2FBA4;
+			color: black;
+		}
+		</style>
+		
+	""")
+end
+
+# ╔═╡ 10c1056d-662e-4b43-9048-87069bbb4017
+plot_ptsSet(IFSs.itrPtsProb(myIFSNonlinear, numPts3), mc3)
 
 # ╔═╡ ac80253a-3422-4457-a51b-6baa5b48ce4f
 begin
-	show_image(M) = get.([ColorSchemes.rainbow], M ./ maximum(M))
+	show_image(M, n) = get.([ColorSchemes.Greys], M ./ n)
+	show_image(M) = show_image(M, maximum(M))
 	show_image(x::AbstractVector) = show_image(x')
 end
 
 # ╔═╡ e07906f7-a618-46e1-bd2f-4e053ca6d21e
 show_image(posBM)
+
+# ╔═╡ 756ceebb-fcaf-4786-8a13-52c150b844f0
+begin
+	m, n = size(posB)
+	matB = similar(posB, Float64)
+	for i in 1:m
+		for j in 1:n
+			matB[i, j] = vv[i] * hh[j] * posB[i, j]
+		end
+	end
+	show_image(matB)
+end
 
 # ╔═╡ 210c8db0-5083-470c-811b-1aca62ee24b2
 function ingredients(path::String)
@@ -355,12 +512,14 @@ PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
 ColorSchemes = "35d6a980-a343-548e-a6ea-1d62b119f2f4"
 Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
+HypertextLiteral = "ac1192a8-f4b3-4bfe-ba22-af5b92cd3ab2"
 Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 
 [compat]
 ColorSchemes = "~3.19.0"
 Distributions = "~0.25.75"
+HypertextLiteral = "~0.9.4"
 Plots = "~1.35.2"
 PlutoUI = "~0.7.43"
 """
@@ -371,7 +530,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.8.1"
 manifest_format = "2.0"
-project_hash = "2f65ecebc976164c13a19147ec1a179341d98c9a"
+project_hash = "052e7220656bab7e842ac1db5fbc91e39ce57580"
 
 [[deps.AbstractPlutoDingetjes]]
 deps = ["Pkg"]
@@ -1400,31 +1559,44 @@ version = "1.4.1+0"
 # ╟─03386e5e-937b-4e32-b034-e1689834e0dc
 # ╟─fe69d7ee-aa66-11eb-0e4e-e16fc28be586
 # ╟─df738342-cb99-4a8e-9565-2b9422caaee2
-# ╠═e3bbfd8a-21c0-4364-a6aa-23b244a0c5da
+# ╟─5362df05-9334-479c-a11d-2c1cf6f664d5
 # ╠═cffe70b9-17bc-467a-b2c1-7a01e46ce494
+# ╟─52ea8214-351a-4685-b4c6-feeda6df60a0
+# ╟─b87c45ac-1a61-49c7-a0fd-102ea9a45cd8
 # ╠═1133d30a-8c54-48da-88d6-da06585781b5
-# ╠═e503bc26-1c46-43dd-8631-698e64b2eb21
+# ╟─19373c06-e44b-4640-8ffd-a630e4d2586d
+# ╟─e503bc26-1c46-43dd-8631-698e64b2eb21
+# ╟─59e300ef-d93b-4049-a431-b7c6ac78ba9e
 # ╟─8a1f751a-11ad-4595-b937-ae81828da28d
 # ╟─5c10f0b0-2275-459d-a6a2-357c8dfb1af1
+# ╟─9621196a-2465-4ae9-bbc3-bc6281fbad6a
 # ╟─e8c15b61-1e15-4412-9370-fd9e5d0efa78
-# ╠═15ecc17a-d5c4-45a6-9266-2520a895eb16
+# ╟─f79b9354-c179-4189-878d-8cedf17eccea
+# ╠═ce4d9abb-a298-424c-a532-c8bc0c96fade
+# ╟─6f2306ed-320f-45dc-a5ac-9407d6e4d5e9
+# ╟─15ecc17a-d5c4-45a6-9266-2520a895eb16
 # ╟─87b32b70-a405-42db-87bd-16a44644e334
 # ╟─24f874d6-93f6-4f53-941c-4cc3cf56963b
 # ╟─5a59bd1c-71e2-44dd-a143-2b3594ddc738
 # ╟─dc9d671f-5279-4c8f-a4ef-9ee31ce49e76
-# ╠═5f8abed9-0be7-43c7-a6a5-8f93a94eb5ce
+# ╟─f364abae-db0a-42a5-a3f2-3d91d5ef5723
+# ╟─88e2cfb4-801b-4780-bf0f-8b5d4b087f9e
+# ╟─5f8abed9-0be7-43c7-a6a5-8f93a94eb5ce
 # ╠═e63a2bee-5b49-4b73-8598-fcf8c17b478a
 # ╟─e07906f7-a618-46e1-bd2f-4e053ca6d21e
 # ╟─106cbdcb-8041-40e4-924a-4693c8d2ea10
 # ╠═e46ee341-23bb-45a0-8e00-58afdd825634
 # ╠═2ca1aa8e-4450-43a2-a15a-ba5d5e2a652f
-# ╠═10d6e98c-685e-4d15-8e66-463ac9524623
+# ╟─756ceebb-fcaf-4786-8a13-52c150b844f0
 # ╟─61e39db5-43ac-4297-97d1-35ed1c42c462
 # ╠═d3e449f3-6318-4d9d-87ee-12d0733b65c9
+# ╟─ceffdad9-8532-4ab6-b19a-a5c7fae0ebac
+# ╟─a5290c8e-99fe-49d7-b622-9ebca55b8be2
+# ╟─10c1056d-662e-4b43-9048-87069bbb4017
 # ╟─3ba4d982-b95b-40e0-9844-b4801b7a1e89
 # ╟─7afa357b-4483-4cff-8b12-9401d42ea53b
 # ╟─ac80253a-3422-4457-a51b-6baa5b48ce4f
 # ╟─210c8db0-5083-470c-811b-1aca62ee24b2
-# ╠═bceaed57-0485-41fc-9294-05fcebf8c3c5
+# ╟─bceaed57-0485-41fc-9294-05fcebf8c3c5
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
