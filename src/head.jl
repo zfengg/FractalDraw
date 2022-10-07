@@ -1,5 +1,4 @@
-using DrWatson
-quickactivate(findproject())
-	
-using Pkg
-Pkg.instantiate()
+include("IFSs.jl")
+using .IFSs
+# include("plot_utils.jl")
+using Plots

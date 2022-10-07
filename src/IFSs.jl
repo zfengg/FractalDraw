@@ -45,18 +45,23 @@ end
 """
 Iterate points via probabilistic method.
 """
-function itrPtsProb(linearIFS::Vector{Matrix{Float64}}, transIFS::Vector{Vector{Float64}}, weights::Vector{Float64}, maxNumPts::Int)::Vector{Vector{Float64}}
+function itrPtsProb(linearIFS::Vector{Matrix{Float64}}, transIFS::Vector{Vector{Float64}}, 
+	weights::Vector{Float64}, maxNumPts::Int, initPt)::Vector{Vector{Float64}}
 	probDistr = Categorical(weights)
 	ptsSet = fill(zeros(Float64, 2), maxNumPts)
-	ptsSet[1] = ([1 0; 0 1] - linearIFS[1]) \ transIFS[1]
+	ptsSet[1] = initPt
 	for i = 2:maxNumPts
 		temptIndex = rand(probDistr)
 		ptsSet[i] = linearIFS[temptIndex] * ptsSet[i - 1] + transIFS[temptIndex]
 	end
 	return ptsSet
 end
+getFixedPt(linear, trans) = ([1 0; 0 1] - linear[1]) \ trans[1]
+itrPtsProb(linear, trans, weight, maxNumPts) = itrPtsProb(linear, trans, weight, maxNumPts, getFixedPt(linear, trans))
 itrPtsProb(wifs::WIFS, maxNumPts::Int) = itrPtsProb(wifs.linear, wifs.trans, wifs.weights, maxNumPts)
+itrPtsProb(wifs::WIFS, maxNumPts::Int, initPt) = itrPtsProb(wifs.linear, wifs.trans, wifs.weights, maxNumPts, initPt)
 itrPtsProb(ifs::IFS, maxNumPts::Int) = itrPtsProb(WIFS(ifs), maxNumPts)
+itrPtsProb(ifs::IFS, maxNumPts::Int, initPt) = itrPtsProb(WIFS(ifs), maxNumPts, initPt)
 function itrPtsProb(ifs::IFSNonlinear, maxNumPts::Int=1000, initialPt::Vector{Float64}=[0., 0.])
 	maps = ifs.maps
 	probDistr = Categorical(ifs.weights)
